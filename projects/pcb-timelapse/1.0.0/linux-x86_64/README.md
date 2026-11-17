@@ -1,9 +1,12 @@
-# PCB Timelapse 1.0.0 — Linux x86_64
+# PCB Timelapse — Linux x86_64
 
 **Status: validated for the recorded KiCad rendering workflow.**
 
 Configuration for [PCB Timelapse](https://github.com/MrJamington/pcb-timelapse/tree/d391d069cb098c235c7d7b1a93e2e92b29af38c6),
-version 1.0.0, commit `d391d069cb098c235c7d7b1a93e2e92b29af38c6`.
+initially tested with version 1.0.0, commit
+`d391d069cb098c235c7d7b1a93e2e92b29af38c6`, and subsequently validated with
+[version 1.3.0](https://github.com/MrJamington/pcb-timelapse/tree/ea33c06fbe86d4d3dd1ff780fd65ab6990f54e5d),
+commit `ea33c06fbe86d4d3dd1ff780fd65ab6990f54e5d`.
 This entry contains only the NodePhell dependency declaration, generated lock,
 and setup instructions. Obtain the plugin itself from upstream.
 
@@ -52,11 +55,21 @@ with KiCad 10.0.7 (`10.0.7~ubuntu24.04.1`) and NodePhell commit
 - The KiCad render dialog launched the external renderer and the rendering
   workflow ran with both executable settings.
 
-The plugin's render screen had display issues reported upstream. Those did
-not prevent renderer startup or dependency selection. Other KiCad versions,
-other platforms, and newer PCB Timelapse revisions were not validated by this
-record. The package selection, artifact hashes, and interpreter are preserved
-from the tested 1.0.0 setup even though the local upstream checkout has
-subsequently advanced. On 2026-11-17, only the lock's source fingerprint was
+The 1.0.0 plugin's render screen had display issues reported upstream. Those
+did not prevent renderer startup or dependency selection.
+
+On 2026-11-17, upstream was updated to 1.3.0 at the commit recorded above.
+All six plugin Python files passed syntax checks, and the renderer still
+declared the same PyMuPDF and Pillow dependencies. The user confirmed that
+`render.py --help` exited successfully through the NodePhell shim from outside
+the project and that rendering through the previously described KiCad
+workflow completed successfully with no issues.
+
+The same 13-package selection, artifact hashes, and CPython 3.12.15 interpreter
+were retained for both tested versions. Only the lock's source fingerprint was
 refreshed for the current NodePhell fingerprint format, avoiding an unnecessary
 resolution when using this configuration with current NodePhell.
+
+The `1.0.0` directory names the earliest validated release for this shared
+configuration. Validation covers the two revisions listed above; intervening
+releases, other KiCad versions, and other platforms have not been tested.

@@ -61,6 +61,12 @@ projects/
 
 The `pyproject.toml` describes what the project needs. The lockfile contains the exact versions that have been resolved and tested together.
 
+Use the earliest validated release as the version directory name. Record exact
+tested versions, commit IDs, dates, and outcomes in the configuration's README.
+One configuration may support several tested releases; its directory name does
+not imply that every intervening release was tested. If a later release needs
+a different dependency configuration, add a new version directory for it.
+
 We prefer simple, human-readable `pyproject.toml` files. There's no need to list every dependency of every package. NodePhell works those out when generating the lockfile.
 
 If the original project already provides a suitable `pyproject.toml`, there's no need for us to provide another one. Likewise, if a lockfile is missing, NodePhell can generate one from the dependency declarations.
