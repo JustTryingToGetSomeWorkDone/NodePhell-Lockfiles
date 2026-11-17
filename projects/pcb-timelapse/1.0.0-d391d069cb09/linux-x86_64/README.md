@@ -55,5 +55,8 @@ with KiCad 10.0.7 (`10.0.7~ubuntu24.04.1`) and NodePhell commit
 The plugin's render screen had display issues reported upstream. Those did
 not prevent renderer startup or dependency selection. Other KiCad versions,
 other platforms, and newer PCB Timelapse revisions were not validated by this
-record. The files are preserved from the tested 1.0.0 setup even though the
-local upstream checkout has subsequently advanced.
+record. The package selection, artifact hashes, and interpreter are preserved
+from the tested 1.0.0 setup even though the local upstream checkout has
+subsequently advanced. On 2026-11-17, only the lock's source fingerprint was
+refreshed for the current NodePhell fingerprint format, avoiding an unnecessary
+resolution when using this configuration with current NodePhell.

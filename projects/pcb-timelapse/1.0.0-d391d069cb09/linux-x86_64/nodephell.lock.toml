@@ -3,7 +3,7 @@ created-by = "nodephell"
 requires-python = ">=3.12,<3.13"
 
 [tool.nodephell.source]
-fingerprint = "e6f56be2c96a361739eb4ef9731726fa8fbf0ab3766ad20f71fe263931aa01f9"
+fingerprint = "c3eafbc0d0391d9c97fa4b166aedec362973d1e3e3a8d370b89c5d78b89cbe2e"
 
 [tool.nodephell.runtime]
 implementation = "cpython"
