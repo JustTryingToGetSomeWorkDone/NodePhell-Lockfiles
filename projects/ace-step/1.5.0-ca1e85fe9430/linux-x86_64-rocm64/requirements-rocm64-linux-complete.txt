@@ -1,0 +1,22 @@
+# Complete Linux ROCm 6.4 locking input.
+#
+# This file turns the two pip commands documented in
+# docs/en/ACE-Step1.5-Rocm-Manual-Linux.md into one machine-readable input.
+# It is suitable for pip and for `nodephell sync -r`.
+
+--extra-index-url https://download.pytorch.org/whl/rocm6.4
+
+# PyTorch's matched ROCm 6.4 release family.
+torch==2.9.1+rocm6.4
+torchvision==0.24.1+rocm6.4
+torchaudio==2.9.1+rocm6.4
+
+# The ROCm wheel has the same public version as other xformers builds, so use
+# its exact artifact URL instead of relying on cross-index candidate ordering.
+xformers @ https://download.pytorch.org/whl/rocm6.4/xformers-0.0.33.post2-cp39-abi3-manylinux_2_28_x86_64.whl
+
+-r requirements-rocm-linux.txt
+
+# nano-vllm is intentionally omitted for this profile. Its current Linux
+# dependency metadata selects a CUDA FlashAttention wheel. The upstream ROCm
+# instructions use ACE-Step's `pt` backend instead.
