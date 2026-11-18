@@ -1,14 +1,12 @@
 # ACE-Step 1.5 — Linux x86_64, ROCm 6.4
 
-**Status: candidate; installation and dependency imports verified, generation validation pending.**
+**Status: validated for the recorded ROCm web UI and music-generation workflow.**
 
 This entry preserves a resolved configuration for
 [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5/tree/ca1e85fe9430179831e6bc6be790c332190a3866),
 commit `ca1e85fe9430179831e6bc6be790c332190a3866` (project version 1.5.0).
-It is not yet a validated working application configuration under this
-repository's contribution criteria. Installation stopped because the test
-machine ran out of disk space. A subsequent run completed synchronization and
-verified the dependency imports; inference remains untested.
+On 2026-11-18, the user confirmed successful web UI startup and music generation
+on an AMD Radeon 880M APU using NodePhell's locked interpreter and packages.
 
 ## Files and installation
 
@@ -105,9 +103,8 @@ NodePhell's Python package synchronization. Concurrent model downloads may
 produce overlapping progress bars in the terminal.
 
 Apply the ROCm settings above, initialize the models, and test an actual
-generation. Startup, GPU detection, model-download initiation, and the corrected
-dependency imports have been observed; a completed generation has not yet been
-recorded for this entry.
+generation. This workflow has been validated through successful web UI startup
+and completed music generation on the recorded hardware.
 
 ## Recorded results
 
@@ -138,8 +135,15 @@ successful joint imports of torch 2.9.1+rocm6.4, torchao 0.15.0+rocm6.4, and
 PEFT 0.21.3. AMD device-ID data and a torchao docstring escape warning remained;
 neither prevented those imports.
 
+Following the dependency correction, the user confirmed that manually
+launching `./start_gradio_ui_rocm.sh` brought up the web interface and generated
+music successfully, without uv or a virtual environment. The user reported
+slower inference on the APU but no further functional issues; this run did not
+benchmark performance or compare it with a venv installation.
+
 The profile now carries the pin, leaving upstream requirements unchanged.
 The lock preserves the resolved selection from that successful import check,
 with its source fingerprint refreshed for the consolidated profile.
-No personal absolute paths are required. This candidate should be marked
-validated only after generation succeeds and its results are recorded.
+No personal absolute paths are required. Validation covers this revision,
+hardware, and generation workflow. Optional training, other backends, other
+GPUs, and other upstream revisions have not been validated by this record.
