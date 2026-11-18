@@ -137,9 +137,7 @@ neither prevented those imports.
 
 Following the dependency correction, the user confirmed that manually
 launching `./start_gradio_ui_rocm.sh` brought up the web interface and generated
-music successfully, without uv or a virtual environment. The user reported
-slower inference on the APU but no further functional issues; this run did not
-benchmark performance or compare it with a venv installation.
+music successfully, without uv or a virtual environment.
 
 The profile now carries the pin, leaving upstream requirements unchanged.
 The lock preserves the resolved selection from that successful import check,
