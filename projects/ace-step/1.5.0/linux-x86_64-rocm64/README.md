@@ -1,13 +1,14 @@
 # ACE-Step 1.5 — Linux x86_64, ROCm 6.4
 
-**Status: candidate; dependency resolution verified, application validation pending.**
+**Status: candidate; installation and dependency imports verified, generation validation pending.**
 
 This entry preserves a resolved configuration for
 [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5/tree/ca1e85fe9430179831e6bc6be790c332190a3866),
 commit `ca1e85fe9430179831e6bc6be790c332190a3866` (project version 1.5.0).
 It is not yet a validated working application configuration under this
 repository's contribution criteria. Installation stopped because the test
-machine ran out of disk space; application startup and inference remain untested.
+machine ran out of disk space. A subsequent run completed synchronization and
+verified the dependency imports; inference remains untested.
 
 ## Files and installation
 
@@ -49,8 +50,12 @@ int8 and selecting the `pt` backend for the 5Hz language model.
 
 The profile consolidates the guide's separate PyTorch installation and Linux
 requirements commands into one input. It pins the matched torch, torchvision,
-and torchaudio ROCm 6.4 release family and selects xformers by exact ROCm wheel
-URL. nano-vllm is omitted for this `pt` profile because its local Linux metadata
+and torchaudio ROCm 6.4 release family, pins `torchao==0.15.0` to match torch
+2.9.1, and selects xformers by exact ROCm wheel URL. The torchao pin constrains
+the unversioned entry in the included upstream requirements; pip combines
+requirements rather than letting the last line override earlier entries.
+The lock selects `torchao==0.15.0+rocm6.4`, which satisfies that public-version
+pin. nano-vllm is omitted for this `pt` profile because its local Linux metadata
 selects a CUDA FlashAttention wheel.
 
 After synchronization succeeds, the upstream local launch command is:
@@ -83,6 +88,17 @@ x86_64, using managed CPython 3.12.15:
 - NodePhell's 203 unit tests passed. Application startup, GPU operation, and
   inference were not tested.
 
-The lock and profile are retained verbatim from that run. No personal absolute
-paths are required. This candidate should be marked validated only after the
-runtime steps above succeed and their results are recorded.
+On 2026-11-18, the user completed synchronization after freeing disk space.
+Startup detected an AMD Radeon 880M and began downloading model files, but
+the unpinned torchao 0.18.0 failed to import with torch 2.9.1. That also caused
+PEFT imports to fail through Transformers. Pinning torchao to 0.15.0 installed
+one release, reusing the existing torch installation. The user then verified
+successful joint imports of torch 2.9.1+rocm6.4, torchao 0.15.0+rocm6.4, and
+PEFT 0.21.3. AMD device-ID data and a torchao docstring escape warning remained;
+neither prevented those imports.
+
+The profile now carries the pin, leaving upstream requirements unchanged.
+The lock preserves the resolved selection from that successful import check,
+with its source fingerprint refreshed for the consolidated profile.
+No personal absolute paths are required. This candidate should be marked
+validated only after generation succeeds and its results are recorded.

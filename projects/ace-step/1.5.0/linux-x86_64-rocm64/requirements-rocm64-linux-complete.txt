@@ -11,6 +11,10 @@ torch==2.9.1+rocm6.4
 torchvision==0.24.1+rocm6.4
 torchaudio==2.9.1+rocm6.4
 
+# Match torch 2.9.1; constrains the unpinned torchao in the included file.
+# The ROCm index also provides the compatible 0.15.0+rocm6.4 build.
+torchao==0.15.0
+
 # The ROCm wheel has the same public version as other xformers builds, so use
 # its exact artifact URL instead of relying on cross-index candidate ordering.
 xformers @ https://download.pytorch.org/whl/rocm6.4/xformers-0.0.33.post2-cp39-abi3-manylinux_2_28_x86_64.whl
