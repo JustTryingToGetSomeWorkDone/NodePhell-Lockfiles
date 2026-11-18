@@ -19,17 +19,29 @@ either file. Copy the supplied `requirements-rocm64-linux-complete.txt` and
 The requirements profile includes the upstream Linux ROCm requirements, so it
 is not a standalone file for an empty directory.
 
-From that checkout root, check available space and synchronize:
+Use a terminal with NodePhell's Python shims on PATH and no activated virtual
+environment. From that checkout root, check available space and synchronize
+with the complete ROCm profile:
 
 ```sh
 df -h . "$HOME/.python" /tmp
-nodephell sync
+nodephell sync --requirements requirements-rocm64-linux-complete.txt
 ```
 
-The supplied lock records the selected requirements profile, so `sync` should
-reuse its 121 pinned releases and managed CPython 3.12.15 rather than resolve
-the project’s default CUDA dependencies. Use NodePhell commit `4ee6c59` or a
+The supplied lock records the selected requirements profile. Synchronization
+uses its 121 pinned releases and managed CPython 3.12.15 when the lock matches,
+reusing installed artifacts. Subsequent runs can use plain `nodephell sync`;
+the selected profile persists. Use NodePhell commit `4ee6c59` or a
 later version containing its requirements-profile and missing-hash support.
+
+Allow at least 30 GB of free installation space before the initial sync, plus
+additional space for model downloads. The 4.47 GB torch wheel expands to
+14.42 GB, and pip can also hold a download and a cached copy during installation.
+
+This replaces the upstream Python environment setup steps: skip `uv sync`,
+`uv run`, virtual-environment creation/activation, and separate pip installs
+of PyTorch or requirements. Keep using NodePhell for Python dependencies.
+GPU drivers and other operating-system prerequisites still need to be present.
 
 To deliberately regenerate the lock from the profile, run:
 
@@ -45,8 +57,9 @@ unpinned. Preserve the supplied lock when reproducing this recorded selection.
 An AMD GPU and compatible operating-system GPU drivers/runtime are external
 prerequisites. See the upstream
 [Linux ROCm instructions](https://github.com/ace-step/ACE-Step-1.5/blob/ca1e85fe9430179831e6bc6be790c332190a3866/docs/en/ACE-Step1.5-Rocm-Manual-Linux.md)
-for hardware and application settings. Those instructions recommend disabling
-int8 and selecting the `pt` backend for the 5Hz language model.
+for hardware and application settings; follow the NodePhell setup above for
+Python dependencies. The upstream ROCm settings recommend disabling int8 and
+selecting the `pt` backend for the 5Hz language model.
 
 The profile consolidates the guide's separate PyTorch installation and Linux
 requirements commands into one input. It pins the matched torch, torchvision,
@@ -58,15 +71,43 @@ The lock selects `torchao==0.15.0+rocm6.4`, which satisfies that public-version
 pin. nano-vllm is omitted for this `pt` profile because its local Linux metadata
 selects a CUDA FlashAttention wheel.
 
-After synchronization succeeds, the upstream local launch command is:
+After synchronization succeeds, confirm that `python3` selects NodePhell and
+that the matched dependencies import:
 
 ```sh
-python -m acestep.acestep_v15_pipeline --server-name 127.0.0.1 --port 7680
+command -v python3
+python3 -c 'import sys, torch, torchao, peft; print(sys.executable); print(torch.__version__, torchao.__version__, peft.__version__); print("ROCm:", torch.version.hip)'
 ```
 
-Open `http://127.0.0.1:7680`, apply the upstream ROCm settings, initialize the
-models, and test an actual generation. Model downloads require additional disk
-space. These runtime steps have not yet been completed for this entry.
+The command path should identify your NodePhell shim, commonly
+`<user-home>/.local/bin/python3`. The interpreter should be under
+`<user-home>/.python/`, with torch `2.9.1+rocm6.4`, torchao
+`0.15.0+rocm6.4`, PEFT `0.21.3`, and a nonempty ROCm version.
+
+Start the application using the Linux ROCm launcher, as in the recorded run:
+
+```sh
+./start_gradio_ui_rocm.sh
+```
+
+If its update check offers an upstream update, decline it when reproducing the
+revision recorded here. The launcher may print `venv_rocm not found` followed
+by `Using system Python`. That is expected for this workflow: without a venv,
+this script invokes `python3` from PATH, so the verified NodePhell shim selects
+the locked interpreter and packages. No venv needs to be created to silence
+the message. An existing `venv_rocm` would instead be activated by the script;
+ensure the launcher is using the NodePhell path before interpreting results.
+
+Open the URL printed by the launcher, `http://127.0.0.1:7860` with its default
+settings. ACE-Step downloads missing model weights and tokenizers into
+`checkpoints/` during first startup. These are application data, separate from
+NodePhell's Python package synchronization. Concurrent model downloads may
+produce overlapping progress bars in the terminal.
+
+Apply the ROCm settings above, initialize the models, and test an actual
+generation. Startup, GPU detection, model-download initiation, and the corrected
+dependency imports have been observed; a completed generation has not yet been
+recorded for this entry.
 
 ## Recorded results
 
