@@ -1,22 +1,16 @@
 # PCB Timelapse — Linux x86_64
 
-**Status: validated for the recorded KiCad rendering workflow.**
-
-Configuration for [PCB Timelapse](https://github.com/MrJamington/pcb-timelapse/tree/d391d069cb098c235c7d7b1a93e2e92b29af38c6),
-initially tested with version 1.0.0, commit
-`d391d069cb098c235c7d7b1a93e2e92b29af38c6`, and subsequently validated with
-[version 1.3.0](https://github.com/MrJamington/pcb-timelapse/tree/ea33c06fbe86d4d3dd1ff780fd65ab6990f54e5d),
-commit `ea33c06fbe86d4d3dd1ff780fd65ab6990f54e5d`.
-This entry contains only the NodePhell dependency declaration, generated lock,
-and setup instructions. Obtain the plugin itself from upstream.
+These files let NodePhell handle the Python dependencies for
+[PCB Timelapse](https://github.com/MrJamington/pcb-timelapse)'s renderer.
+The same setup has been tested with versions 1.0.0 and 1.3.0, rendering
+successfully from KiCad.
 
 ## Setup
 
-Install the KiCad plugin using the upstream instructions. Copy the supplied
-`pyproject.toml` and `nodephell.lock.toml` into the plugin directory beside
-`render.py`. In a source checkout this is the `pcb_timelapse/` directory,
-not the repository root. If KiCad uses a separate installed copy, put the two
-files beside that copy's `render.py` as well.
+Install the KiCad plugin as described upstream. Then copy `pyproject.toml`
+and `nodephell.lock.toml` from this folder into the plugin folder beside
+`render.py`. In a source checkout, that's `pcb_timelapse/`. If KiCad uses an
+installed copy elsewhere, put the files beside that copy's `render.py` too.
 
 Open a terminal in that directory and run:
 
@@ -42,6 +36,12 @@ metadata beside that script. KiCad itself remains an external prerequisite;
 this configuration manages the renderer's Python dependencies.
 
 ## Recorded validation
+
+- **Status:** validated rendering through KiCad.
+- **PCB Timelapse 1.0.0 revision:**
+  `d391d069cb098c235c7d7b1a93e2e92b29af38c6`.
+- **PCB Timelapse 1.3.0 revision:**
+  `ea33c06fbe86d4d3dd1ff780fd65ab6990f54e5d`.
 
 On 2026-10-26 this configuration was tested on Linux Mint 22.3, x86_64,
 with KiCad 10.0.7 (`10.0.7~ubuntu24.04.1`) and NodePhell commit

@@ -1,25 +1,17 @@
 # ACE-Step 1.5 — Linux x86_64, ROCm 6.4
 
-**Status: validated for the recorded ROCm web UI and music-generation workflow.**
-
-This entry preserves a resolved configuration for
-[ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5/tree/ca1e85fe9430179831e6bc6be790c332190a3866),
-commit `ca1e85fe9430179831e6bc6be790c332190a3866` (project version 1.5.0).
-On 2026-11-18, the user confirmed successful web UI startup and music generation
-on an AMD Radeon 880M APU using NodePhell's locked interpreter and packages.
+This setup runs ACE-Step with ROCm 6.4 through NodePhell. It has been tested
+on an AMD Radeon 880M APU: the web interface starts and generates music.
 
 ## Files and installation
 
-Use the upstream checkout at the exact revision above. Keep its existing
-`pyproject.toml` and `requirements-rocm-linux.txt`; this entry does not replace
-either file. Copy the supplied `requirements-rocm64-linux-complete.txt` and
-`nodephell.lock.toml` into the checkout root, beside those upstream files.
-The requirements profile includes the upstream Linux ROCm requirements, so it
-is not a standalone file for an empty directory.
+Start with [ACE-Step 1.5 at the tested revision](https://github.com/ace-step/ACE-Step-1.5/tree/ca1e85fe9430179831e6bc6be790c332190a3866).
+Copy `requirements-rocm64-linux-complete.txt` and `nodephell.lock.toml` from
+this folder into your ACE-Step folder, beside its `pyproject.toml`. Keep
+ACE-Step's existing files: our profile includes its `requirements-rocm-linux.txt`.
 
-Use a terminal with NodePhell's Python shims on PATH and no activated virtual
-environment. From that checkout root, check available space and synchronize
-with the complete ROCm profile:
+With NodePhell installed from its source checkout, open a terminal in the
+ACE-Step folder and run:
 
 ```sh
 df -h . "$HOME/.python" /tmp
@@ -107,6 +99,11 @@ generation. This workflow has been validated through successful web UI startup
 and completed music generation on the recorded hardware.
 
 ## Recorded results
+
+- **Status:** validated web UI startup and music generation.
+- **Upstream version and revision:** ACE-Step 1.5.0,
+  `ca1e85fe9430179831e6bc6be790c332190a3866`.
+- **GPU:** AMD Radeon 880M APU.
 
 On 2026-11-17, NodePhell commit
 `4ee6c598a3c3ae9a657f7d9b59219fa6ec2bb40a` was exercised on Linux Mint 22.3,

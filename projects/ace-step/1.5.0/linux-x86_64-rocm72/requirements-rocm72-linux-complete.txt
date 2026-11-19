@@ -1,0 +1,29 @@
+# Complete Linux ROCm 7.2 locking input.
+#
+# This file adapts the two pip commands documented in
+# docs/en/ACE-Step1.5-Rocm-Manual-Linux.md for ROCm 7.2.
+# It is suitable for pip and for `nodephell sync -r`.
+
+--extra-index-url https://download.pytorch.org/whl/rocm7.2
+
+# PyTorch's matched ROCm 7.2 release family.
+torch==2.11.0+rocm7.2
+torchvision==0.26.0+rocm7.2
+torchaudio==2.11.0+rocm7.2
+
+# Match torch 2.11.0; constrains the unpinned torchao in the included file.
+# Explicitly select the ROCm build for native extension compatibility.
+torchao==0.17.0+rocm7.2
+
+# Starting with 0.0.36, xformers uses a platform-independent Python wheel.
+# Native attention kernels are now provided by mslk.
+xformers==0.0.36
+
+# Match the MSLK release family to PyTorch 2.11 and ROCm 7.2.
+mslk==1.1.0+rocm7.2.26015
+
+-r requirements-rocm-linux.txt
+
+# nano-vllm is intentionally omitted for this profile. Its current Linux
+# dependency metadata selects a CUDA FlashAttention wheel. The upstream ROCm
+# instructions use ACE-Step's `pt` backend instead.
